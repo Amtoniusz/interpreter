@@ -1,0 +1,12 @@
+int x = 12;
+int main(){
+	
+	print(x);
+	if (true){
+		int x = 6;
+		print(x);
+	}
+	print(x);
+	int x = 1;
+	print(x);
+}

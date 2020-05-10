@@ -1,0 +1,9 @@
+int main(){
+	int x = 3;
+	int b = 0;
+	while (x > 0){
+		b = b + x;
+		x = x-1;
+	}
+	print(x, b);
+}

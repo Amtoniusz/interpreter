@@ -1,0 +1,178 @@
+entrypoints Program;
+
+Prog. Program ::= [TopStm] ;
+
+ProExp. Program ::= Exp ;
+
+-- Types ---------------------------------------------------
+
+IntType.       Type ::= "int" ;
+
+StrType.       Type ::= "string" ;
+
+BoolType.      Type ::= "bool" ;
+
+VoidType.      Type ::= "void" ;
+
+--TupleType.     Type ::= "tuple" "<" Type ">" ;
+
+IntRef.        Ref ::= "int&" ;
+
+StrRef.        Ref ::= "string&" ;
+
+BoolRef.       Ref ::= "bool&" ;
+
+--TupleRef.      Ref ::= "tuple&" "<" Type ">" ;
+
+--IndexT.        Index ::= "[" Exp "]";
+
+--separator nonempty Index "";
+
+-- Expressions ---------------------------------------------
+--VarTuple.  Var ::= Ident [Index];
+
+--VarIdent.  Var ::= Ident ;
+
+--EVar.    Exp6 ::= Var ;
+
+EStr.      Exp6 ::= String ;
+
+EIdent.    Exp6 ::= Ident ;
+
+ERef.      Exp6 ::= "&" Ident ;     
+
+EFun.      Exp6 ::= Ident "(" [Exp] ")" ;
+
+-- Int Expressions --
+
+EInt.      Exp6 ::= Integer ;
+
+Neg.       Exp5 ::= "-" Exp6 ;
+
+EMul.      Exp4 ::= Exp4 MulOp Exp5 ;
+
+EAdd.      Exp3 ::= Exp3 AddOp Exp4 ;
+
+-- Bool Expressions --
+
+ETrue.     Exp6 ::= "true" ;
+
+EFalse.    Exp6 ::= "false" ;
+
+Not.       Exp5 ::= "!" Exp6 ;
+
+ERel.      Exp2 ::= Exp2 RelOp Exp3 ;
+
+EAnd.      Exp1 ::= Exp2 "&&" Exp1 ;
+
+EOr.       Exp ::= Exp1 "||" Exp ;
+
+-- String Expressions --
+
+
+separator  Exp "," ;
+
+coercions  Exp 6 ;
+
+
+-- operators -----------------------------------------------
+
+Plus.      AddOp ::= "+" ;
+
+Minus.     AddOp ::= "-" ;
+
+Times.     MulOp ::= "*" ;
+
+Div.       MulOp ::= "/" ;
+
+Mod.       MulOp ::= "%" ;
+
+LTH.       RelOp ::= "<" ;
+
+LE.        RelOp ::= "<=" ;
+
+GTH.       RelOp ::= ">" ;
+
+GE.        RelOp ::= ">=" ;
+
+EQU.       RelOp ::= "==" ;
+
+NE.        RelOp ::= "!=" ;
+
+-- statements ----------------------------------------------
+DeclTop.   TopStm ::= Type [Item] ";" ;
+
+Decl.      Stm ::= Type [Item] ";" ;
+
+NoInit.    Item ::= Ident ; 
+
+Init.      Item ::= Ident "=" Exp ;
+
+--InitTuple. Item ::= Ident "=" "tuple" "(" Nexp "," [Nexp] ")" ;
+
+--NExp1.     Nexp ::= Exp;
+
+--NExp.      Nexp ::= "(" Nexp "," [Nexp] ")";
+
+--separator nonempty Nexp ",";
+
+separator nonempty Item "," ;
+
+separator  TopStm "" ;
+
+separator  Stm "" ;
+
+Ass.       Stm ::= Ident "=" Exp ";" ;
+
+--AssTuple.  Stm ::= Var "=" "tuple" "(" Nexp "," [Nexp] ")" ";" ;
+
+--AssPlus.   Stm ::= Var "+=" Exp ";" ; 
+
+--AssMinus.  Stm ::= Var "-=" Exp ";" ;
+
+--AssTimes.  Stm ::= Var "*=" Exp ";" ; 
+
+--AssDiv.    Stm ::= Var "/=" Exp ";" ; 
+
+--AssMod.    Stm ::= Var "%=" Exp ";" ; 
+
+Blk.         Block ::= "{" [Stm] "}" ;
+
+Cond.        Stm ::= "if" "(" Exp ")" Block ;
+
+CondElse.    Stm ::= "if" "(" Exp ")" Block "else" Block ;
+
+While.       Stm ::= "while" "(" Exp ")" Block ;
+
+--Bre.       Stm ::= "break" ";";
+
+--Con.       Stm ::= "continue" ";";
+
+StmExp.      Stm ::= Exp ";" ;
+
+-- functions ----------------------------
+ArgType.     Arg ::= Type Ident;
+
+ArgRef.      Arg ::= Ref Ident;
+
+separator    Arg ",";
+
+FunPref.     Fun ::= Type Ident "(" [Arg] ")";
+
+Print.       Stm ::= "print" "(" [Exp] ")" ";";
+
+FunDec.      Stm ::= Fun ";";
+
+FunDef.      Stm ::= Fun Block;
+
+FunDecTop.      TopStm ::= Fun ";";
+
+FunDefTop.      TopStm ::= Fun Block;
+
+RetVal.      Stm ::= "return" Exp ";";
+
+--RetTupl.     Stm ::= "return" "tuple" "(" Nexp "," [Nexp] ")" ";";
+
+Ret.         Stm ::= "return" ";";
+
+comment    "#" ;

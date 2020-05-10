@@ -1,0 +1,137 @@
+\documentclass{article}
+\usepackage[MeX]{polski}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage[makeroom]{cancel}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{gensymb}
+\usepackage{xfrac}
+\usepackage{semantic}
+\usepackage{proof}
+
+\pagestyle{fancy}
+
+\setcounter{MaxMatrixCols}{20}
+
+\lhead{Antoni Burski \newline nr. ab394123}
+\rhead{Deklaracja Języka} 
+
+\begin{document}
+% \hspace*{5ex}
+\section{Wstęp}
+Gramatyka będzie uproszczoną gramatyką języka C++.\newline
+Typy zmiennych: int, bool, string , tuple<T> gdzie T to któryś z typów\newline
+Funkcje: funkcje mają typ zwracany int, bool , string, tuple<T> lub void. Argumenty do funkcji są przekazywane przez wartość lub referencję. \newline
+Pętla while, if else, wyrażenia arytmetyczne jak w C. \newline
+Krotki: krotki tworzymy wyrzażeniem tuple (a1, ... an) i konstruktor ten nie może być cześcią wyrażenia, ale przypisanie krotce nowej wartości jest mozliwe\newline
+komentarze zaczynają się od \# i trwaja do końca lini.\newline
+
+\section{Gramatyka} 
+Gramatyka wykorzystuje konstrukcje: Ident (identyfikator), String, Integer. \newline
+Typy: \newline
+$Bool \; = \; "true" \:|\: "false"  $\newline
+Type\; = \; "int" \;\textbar\; "string" \;\textbar\; "bool" \;\textbar\; void \;\textbar\; tuple " \textless " Type " \textgreater "  \newline
+Ref\; = \; "int\&" \;\textbar\; "string\&" \;\textbar\; "bool\&"  \;\textbar\; tuple\& "\textless" Type "\textgreater" ;\newline
+Index \; = \; "[" Exp "]" \newline
+IndexList \; = \; Index \{Index\} \newline
+Var \; = \; Ident [IndexList] \newline
+Operatory: \newline
+$ AddOp \; = \; "+" \:|\: "-"  $\newline
+$ MulOp \; = \; "*" \:|\: ":" \:|\: "\%"  $\newline
+$ RelOp\; = \; "<" \:|\: ">" \:|\: "< =" \:|\: "> =" \:|\: "==" \:|\: "!=   "  $\newline
+ListExp \; = \; [Exp] \;\textbar\; Exp \{"," Exp\} \newline
+Exp1 \; = \; 
+["("]\;Exp\;[")"] \;\textbar\;  
+[{-\;\textbar\;!}] \;(  Var\;  \textbar \; \;Ident \; "(" \;ListExp \;")"\;  \textbar \;Integer \;\textbar \;String \;\textbar \;Bool \;)  \newline
+Exp2 \; = \; [ "(" ] Exp1[ ")" ]   \textbar Exp2  MulOp  Exp2  \newline
+Exp3 \; = \; [ "(" ] Exp2 [ ")" ]  \textbar Exp3  AddOp  Exp2  \newline
+Exp4 \; = \; [ "(" ] Exp3 [ ")" ]  \textbar Exp4  RelOp  Exp3  \newline
+Exp5 \; = \; [ "(" ] Exp4 [ ")" ]  \textbar Exp5  "\&\&" Exp4  \newline
+Exp  \; = \; [ "(" ] Exp5 [ ")" ]  \textbar Exp  "\textbar\textbar" Exp5 \newline
+\newline
+NExp \; = \; Exp \; \textbar \; "(" NExp "," NExp \{"," NExp\} ")";\newline
+Item \; = \; Ident [ "=" Exp ] \;\textbar\; Ident "=" "tuple" NExp \newline
+ItemList \; = \; Item  \{ ","  Item \} \newline
+Stm \; = \; 
+Type ItemList \;\textbar\; 
+Ref ItemList \;\textbar\; \newline
+Var ("=", "+=", "-=", "*=", "/=", "\%=" ) Exp \;\textbar\;  Var = "tuple" Nexp \;\textbar\; \newline
+"if" "(" Exp ")" (Block \textbar Stm) "else" (Block \textbar Stm) \textbar Exp ";" \;\textbar\;\newline
+"while" "(" Exp ")" Block \;\textbar\; \newline
+Type Ident "(" ArgList ")" (";" \textbar Block) \;\textbar\; 
+"return" [ Exp ] ";" \newline
+StmList \; = \;\{ Stm \} \newline
+Block\; = \; "\{" StmList "\}" \newline
+Arg \; = \; (Ref \textbar Type)  Ident \newline
+ArgList \; =  [Arg] \;\textbar\; Arg \{ "," Arg \}  \newline
+
+\section{Funkcyjność} 
+  na 15 punktów:\newline
+  01 (trzy typy) \newline
+  02 (literały, arytmetyka, porównania) \newline
+  03 (zmienne, przypisanie)\newline
+  04 (print)\newline
+  05 (while, if)\newline
+  06 (funkcje lub procedury, rekurencja)\newline
+  07 (przez zmienną / przez wartość / in/out)\newline
+  na 20 punktów:\newline
+  09 (przesłanianie i statyczne wiązanie)\newline
+  10 (obsługa błędów wykonania)\newline
+  11 (funkcje zwracające wartość)\newline
+  na 30 punktów:\newline
+  12 (4) (statyczne typowanie)\newline
+  13 (2) (funkcje zagnieżdżone ze statycznym wiązaniem)\newline
+  15 (2) (krotki z przypisaniem)\newline
+  16 (1) (break, continue)\newline
+
+Razem: 20+9 = 29
+
+\section{Prykładowe programy}
+\subsection{typy proste}
+\begin{verbatim}
+int a = 10; 
+string b = "10";
+bool c = "true";
+int a1,a2 = 2;
+string b1,b2 = "10";
+bool c1,c2 = "true";
+a1 = a+-a2;
+c1 =  c2 || !c;
+\end{verbatim}
+\subsection{krotki}
+\begin{verbatim}
+tuple <int> a = tuple (1,2);
+tuple<tuple<int>> b = tuple ((1,1),a,a);
+a[2] = 3;
+tuple<int> foo (tuple<int> a, tuple&<int> b){
+    return tuple (a[1], 1);
+}
+foo(a,a);
+a = tuple (2,3);
+#komentarz
+\end{verbatim}
+
+\subsection{funkcje}
+\begin{verbatim}
+int counter;
+void foo ();
+void foo (){
+    couter += 1;
+}
+int bar(int a){
+    void foo(){
+        couter -= 1;
+    }
+    foo();
+    return a-1;
+}
+bar(1);
+\end{verbatim}
+
+
+\end{document}
+
+

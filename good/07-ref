@@ -1,0 +1,29 @@
+void foo(int& x){
+	x = x - 1;
+}
+
+string bar(string& s){
+	return s + "  " + s;
+}
+
+void f( bool& b  ){
+	if (b){
+		print ( "b=",b );
+	}
+}
+
+int main(){
+	int a = 4;
+	print ("4==",a);
+	foo(&a);
+	print("3==",a);
+	foo(&a);
+	foo(&a);
+	print("1==",a);
+	string abc = "<><>";
+	print(bar(&abc));
+	bool boo = true;
+	f(&boo);
+	boo = false;
+	f(&boo);
+}
